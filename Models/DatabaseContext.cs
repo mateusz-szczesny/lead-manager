@@ -36,7 +36,6 @@ namespace LeadManager.Models
             modelBuilder.Entity<Activity>()
                 .Property(a => a.LastModifiedDate)
                 .ValueGeneratedOnAddOrUpdate();
-
         }
 
     }

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LeadManager.Models;
 using LeadManager.Responses;
+using LeadManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,10 +16,12 @@ namespace LeadManager.Controllers
     {
 
         private readonly ILogger<LeadController> _logger;
+        private readonly ILeadService _leadService;
 
-        public LeadController(ILogger<LeadController> logger)
+        public LeadController(ILogger<LeadController> logger, ILeadService leadService)
         {
             _logger = logger;
+            _leadService = leadService;
         }
 
         /// <summary>
@@ -26,12 +30,19 @@ namespace LeadManager.Controllers
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
         [HttpGet("/")]
-        [ProducesResponseType(typeof(List<LeadResponse>), 200)]
+        [ProducesResponseType(typeof(List<Lead>), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetAllLeads()
         {
-            // HANDLE ENPOINT HERE
-            return Ok();
+            try
+            {
+                var leads = await _leadService.GetLeads();
+                return Ok(leads);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorPayload(1, e.Message));
+            }
         }
 
         /// <summary>
@@ -41,12 +52,19 @@ namespace LeadManager.Controllers
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
         [HttpGet("/{id}")]
-        [ProducesResponseType(typeof(LeadResponse), 200)]
+        [ProducesResponseType(typeof(Lead), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetLead(int id)
         {
-            // HANDLE ENPOINT HERE
-            return Ok();
+            try
+            {
+                var lead = await _leadService.GetLeadById(id);
+                return Ok(lead);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorPayload(1, e.Message));
+            }
         }
     }
 }

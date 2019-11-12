@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LeadManager.Models;
+using LeadManager.Requests;
 using LeadManager.Responses;
+using LeadManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,56 +17,77 @@ namespace LeadManager.Controllers
     {
 
         private readonly ILogger<ActivityController> _logger;
+        private readonly IActivityService _activityService;
 
-        public ActivityController(ILogger<ActivityController> logger)
+        public ActivityController(ILogger<ActivityController> logger, IActivityService activityService)
         {
             _logger = logger;
+            _activityService = activityService;
         }
 
         /// <summary>
-        /// Endpoint for querying all Activities
+        /// Endpoint for querying all Activities by Lead
         /// </summary>
         /// <param name="leadId"></param> 
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
         [HttpGet("/lead={leadId}")]
-        [ProducesResponseType(typeof(List<ActivityResponse>), 200)]
+        [ProducesResponseType(typeof(List<Activity>), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetAllActivities(int leadId)
         {
-            // HANDLE ENPOINT HERE
-            return Ok();
+            try
+            {
+                var activities = await _activityService.GetActivitiesByLeadId(leadId);
+                return Ok(activities);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorPayload(1, e.Message));
+            }
         }
 
         /// <summary>
-        /// Endpoint for querying all Activities
+        /// Endpoint for querying Activity by its Id
         /// </summary>
-        /// <param name="leadId"></param> 
         /// <param name="id"></param> 
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpGet("/leadId={leadId}&id={id}")]
-        [ProducesResponseType(typeof(List<ActivityResponse>), 200)]
+        [HttpGet("/{id}")]
+        [ProducesResponseType(typeof(Activity), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
-        public async Task<IActionResult> GetActivity(int leadId, int id)
+        public async Task<IActionResult> GetActivity(int id)
         {
-            // HANDLE ENPOINT HERE
-            return Ok();
+            try
+            {
+                var activity = await _activityService.GetActivityById(id);
+                return Ok(activity);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorPayload(1, e.Message));
+            }
         }
 
         /// <summary>
-        /// Endpoint for querying all Activities
+        /// Endpoint for registering new Activity
         /// </summary>
-        /// <param name="leadId"></param> 
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpPost("/{leadId}")]
-        [ProducesResponseType(typeof(ActivityResponse), 200)]
+        [HttpPost("/")]
+        [ProducesResponseType(typeof(Activity), 201)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
-        public async Task<IActionResult> AddActivities(int leadId)
+        public async Task<IActionResult> AddActivity([FromBody] ActivityRequest request)
         {
-            // HANDLE ENPOINT HERE
-            return Ok();
+            try
+            {
+                var activity = await _activityService.Create(null);
+                return CreatedAtAction(nameof(GetActivity), activity);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorPayload(1, e.Message));
+            }
         }
     }
 }
