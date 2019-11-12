@@ -1,0 +1,18 @@
+version: "3"
+services:
+    auth:
+        build: .
+        ports:
+            - "8000:5000"
+        depends_on:
+            - db
+        environment:
+            DATABASE_URL: Username=postgres;Password=1qaz@WSX;Host=db;Port=5432;Database=arthub;Pooling=true;
+    db:
+        image: "postgres"
+        ports:
+            - "49155:5432"
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=1qaz@WSX
+            - POSTGRES_DB=arthub
