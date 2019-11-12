@@ -55,7 +55,7 @@ namespace LeadManager.Extentions
             });
         }
 
-        public static void AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
+        public static void AddDatabaseServices(this IServiceCollection services)
         {
             var connection = Environment.GetEnvironmentVariable("DATABASE_URL");
             services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(
