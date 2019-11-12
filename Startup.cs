@@ -30,6 +30,8 @@ namespace LeadManager
             services.AddControllers();
             services.AddSwaggerDocumentation();
             services.AddDatabaseServices(Configuration);
+            services.AddServices();
+            services.AddRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

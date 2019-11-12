@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using LeadManager.Models;
+using LeadManager.Repositories;
+using LeadManager.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,6 +66,18 @@ namespace LeadManager.Extentions
                     options.UseNpgsql(connection);
                 }
             );
+        }
+
+        public static void AddServices(this IServiceCollection services)
+        {
+            services.AddTransient<ILeadService, LeadService>();
+            services.AddTransient<IActivityService, ActivityService>();
+        }
+
+        public static void AddRepositories(this IServiceCollection services)
+        {
+            services.AddTransient<ILeadRepository, LeadRepository>();
+            services.AddTransient<IActivityRepository, ActivityRepository>();
         }
     }
 }

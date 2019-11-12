@@ -8,6 +8,7 @@ using LeadManager.Responses;
 using LeadManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using LeadManager.Mappers;
 
 namespace LeadManager.Controllers
 {
@@ -81,7 +82,7 @@ namespace LeadManager.Controllers
         {
             try
             {
-                var activity = await _activityService.Create(null);
+                var activity = await _activityService.Create(request.ToActivity());
                 return CreatedAtAction(nameof(GetActivity), activity);
             }
             catch (Exception e)
