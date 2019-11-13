@@ -20,7 +20,7 @@ namespace LeadManager.Services
             return _activityRepository.Create(activity);
         }
 
-        public Task<List<Activity>> GetActivitiesByLeadId(int leadId)
+        public List<Activity> GetActivitiesByLeadId(int leadId)
         {
             return _activityRepository.GetActivitiesByLeadId(leadId);
         }

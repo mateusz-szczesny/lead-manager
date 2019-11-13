@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LeadManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeadManager.Repositories
 {
@@ -13,14 +15,38 @@ namespace LeadManager.Repositories
             _context = context;
         }
 
-        public Task<Lead> GetLeadById(int id)
+        public async Task<Lead> GetLeadById(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var lead = await _context.Leads.FirstAsync(l => l.Id == id);
+                if (lead != null)
+                {
+                    return lead;
+                }
+                throw new Exception("Cannot found such lead");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
-        public Task<List<Lead>> GetLeads()
+        public async Task<List<Lead>> GetLeads()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var leads = await _context.Leads.ToListAsync();
+                if (leads != null)
+                {
+                    return leads;
+                }
+                throw new Exception("No leads available");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

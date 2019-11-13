@@ -35,11 +35,11 @@ namespace LeadManager.Controllers
         [HttpGet("/lead={leadId}")]
         [ProducesResponseType(typeof(List<Activity>), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
-        public async Task<IActionResult> GetAllActivities(int leadId)
+        public IActionResult GetAllActivities(int leadId)
         {
             try
             {
-                var activities = await _activityService.GetActivitiesByLeadId(leadId);
+                var activities = _activityService.GetActivitiesByLeadId(leadId);
                 return Ok(activities);
             }
             catch (Exception e)
@@ -54,7 +54,7 @@ namespace LeadManager.Controllers
         /// <param name="id"></param> 
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpGet("/{id}")]
+        [HttpGet("/id={id}")]
         [ProducesResponseType(typeof(Activity), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetActivity(int id)
