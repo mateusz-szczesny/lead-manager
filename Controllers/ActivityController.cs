@@ -32,15 +32,20 @@ namespace LeadManager.Controllers
         /// <param name="leadId"></param> 
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpGet("/lead={leadId}")]
-        [ProducesResponseType(typeof(List<Activity>), 200)]
+        [HttpGet("lead={leadId}")]
+        [ProducesResponseType(typeof(List<ActivityResponse>), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public IActionResult GetAllActivities(int leadId)
         {
             try
             {
+                List<ActivityResponse> response = new List<ActivityResponse>();
                 var activities = _activityService.GetActivitiesByLeadId(leadId);
-                return Ok(activities);
+                foreach (var activity in activities)
+                {
+                    response.Add(activity.ToActivityResponse());
+                }
+                return Ok(response);
             }
             catch (Exception e)
             {
@@ -54,15 +59,15 @@ namespace LeadManager.Controllers
         /// <param name="id"></param> 
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpGet("/id={id}")]
-        [ProducesResponseType(typeof(Activity), 200)]
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ActivityResponse), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetActivity(int id)
         {
             try
             {
                 var activity = await _activityService.GetActivityById(id);
-                return Ok(activity);
+                return Ok(activity.ToActivityResponse());
             }
             catch (Exception e)
             {
@@ -75,15 +80,15 @@ namespace LeadManager.Controllers
         /// </summary>
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpPost("/")]
-        [ProducesResponseType(typeof(Activity), 201)]
+        [HttpPost]
+        [ProducesResponseType(typeof(ActivityResponse), 201)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> AddActivity([FromBody] ActivityRequest request)
         {
             try
             {
                 var activity = await _activityService.Create(request.ToActivity());
-                return CreatedAtAction(nameof(GetActivity), activity);
+                return Created(nameof(GetActivity), activity.ToActivityResponse());
             }
             catch (Exception e)
             {

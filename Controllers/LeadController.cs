@@ -29,7 +29,7 @@ namespace LeadManager.Controllers
         /// </summary>
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpGet("/")]
+        [HttpGet]
         [ProducesResponseType(typeof(List<Lead>), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetAllLeads()
@@ -51,7 +51,7 @@ namespace LeadManager.Controllers
         /// <param name="id"></param> 
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(Lead), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetLead(int id)

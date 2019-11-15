@@ -10,14 +10,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LeadManager.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191112221449_InitialCreate")]
+    [Migration("20191115174959_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:Enum:activity_type", "phone,meeting,email")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
@@ -30,11 +29,6 @@ namespace LeadManager.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("LastModifiedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("LeadId")
@@ -42,6 +36,9 @@ namespace LeadManager.Migrations
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -57,13 +54,12 @@ namespace LeadManager.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<bool>("Active")
+                    b.Property<bool?>("Active")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
@@ -72,12 +68,11 @@ namespace LeadManager.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastModifiedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("LastName")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

@@ -19,7 +19,7 @@ namespace LeadManager.Repositories
         {
             try
             {
-                var lead = await _context.Leads.FirstAsync(l => l.Id == id);
+                var lead = await _context.Leads.FirstOrDefaultAsync(l => l.Id == id);
                 if (lead != null)
                 {
                     return lead;

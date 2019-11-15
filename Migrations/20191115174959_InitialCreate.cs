@@ -8,21 +8,18 @@ namespace LeadManager.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:activity_type", "phone,meeting,email");
-
             migrationBuilder.CreateTable(
                 name: "Leads",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Active = table.Column<bool>(nullable: false, defaultValue: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(nullable: false)
+                    Active = table.Column<bool>(nullable: true, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -35,10 +32,10 @@ namespace LeadManager.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LeadId = table.Column<int>(nullable: false),
-                    Type = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(nullable: false)
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    LeadId = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

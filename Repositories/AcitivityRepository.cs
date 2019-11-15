@@ -21,7 +21,8 @@ namespace LeadManager.Repositories
             try
             {
                 var created = await _context.Activities.AddAsync(activity);
-                if (created != null && created.State == EntityState.Added)
+                await _context.SaveChangesAsync();
+                if (created != null)
                 {
                     return created.Entity;
                 }
@@ -54,7 +55,7 @@ namespace LeadManager.Repositories
         {
             try
             {
-                var activity = await _context.Activities.FirstAsync(a => a.Id == id);
+                var activity = await _context.Activities.FirstOrDefaultAsync(a => a.Id == id);
                 if (activity != null)
                 {
                     return activity;
