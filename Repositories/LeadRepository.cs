@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using LeadManager.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,10 +20,10 @@ namespace LeadManager.Repositories
         {
             try
             {
-                var lead = await _context.Leads.FirstOrDefaultAsync(l => l.Id == id);
-                if (lead != null)
+                var lead = await _context.Leads.Where(l => l.Id == id).Include(l => l.Activities).ToListAsync();
+                if (lead != null && lead.Count == 1)
                 {
-                    return lead;
+                    return lead[0];
                 }
                 throw new Exception("Cannot found such lead");
             }

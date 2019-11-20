@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LeadManager.Models
+namespace LeadManager.Responses
 {
-    public class Lead : BaseEntity
+    public class LeadResponse
     {
-        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public bool? Active { get; set; }
-        public List<Activity> Activities { get; set; }
+        public List<ActivityResponse> Activities { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

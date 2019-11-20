@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LeadManager.Mappers;
 using System.Threading.Tasks;
 using LeadManager.Models;
 using LeadManager.Responses;
@@ -52,14 +53,14 @@ namespace LeadManager.Controllers
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Lead), 200)]
+        [ProducesResponseType(typeof(LeadResponse), 200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public async Task<IActionResult> GetLead(int id)
         {
             try
             {
                 var lead = await _leadService.GetLeadById(id);
-                return Ok(lead);
+                return Ok(lead.ToLeadResponse());
             }
             catch (Exception e)
             {
