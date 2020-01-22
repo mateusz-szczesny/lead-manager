@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LeadManager.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191115174959_InitialCreate")]
+    [Migration("20200122184556_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace LeadManager.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExternalId")
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
