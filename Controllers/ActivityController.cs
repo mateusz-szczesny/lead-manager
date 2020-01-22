@@ -33,7 +33,7 @@ namespace LeadManager.Controllers
         /// <response code="200">Ok - successful</response>
         /// <response code="400">Bad Request - error during request(Error in message)</response>
         [HttpGet("lead={leadId}")]
-        [ProducesResponseType(typeof(List<ActivityResponse>), 200)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ErrorPayload), 400)]
         public IActionResult GetAllActivities(int leadId)
         {

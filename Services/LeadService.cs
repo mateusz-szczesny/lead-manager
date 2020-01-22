@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LeadManager.Models;
 using LeadManager.Repositories;
+using LeadManager.Utils;
 
 namespace LeadManager.Services
 {
@@ -12,6 +13,11 @@ namespace LeadManager.Services
         public LeadService(ILeadRepository leadRepository)
         {
             _leadRepository = leadRepository;
+        }
+
+        public Task<StatusReport> BulkLoadLeads(List<Lead> leads)
+        {
+            return _leadRepository.BulkLoadLeads(leads);
         }
 
         public Task<Lead> GetLeadById(int id)

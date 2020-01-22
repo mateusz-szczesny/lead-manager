@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using LeadManager.Models;
+using LeadManager.Requests;
 using LeadManager.Responses;
 
 namespace LeadManager.Mappers
@@ -17,7 +18,7 @@ namespace LeadManager.Mappers
                 Active = lead.Active,
                 CreatedDate = lead.CreatedDate,
                 UpdatedDate = lead.UpdatedDate,
-                Activities = new List<ActivityResponse>()
+                Activities = new List<ActivityResponse>(),
             };
 
             foreach (var activity in lead.Activities)
@@ -26,6 +27,17 @@ namespace LeadManager.Mappers
             }
 
             return leadResponse;
+        }
+        public static Lead ToLead(this LeadRequest leadRequest)
+        {
+            return new Lead
+            {
+                FirstName = leadRequest.FirstName,
+                LastName = leadRequest.LastName,
+                Email = leadRequest.Email,
+                Active = true,
+                ExternalId = leadRequest.ExternalId,
+            };
         }
     }
 }

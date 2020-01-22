@@ -4,16 +4,35 @@ using System.Threading.Tasks;
 using System.Linq;
 using LeadManager.Models;
 using Microsoft.EntityFrameworkCore;
+using LeadManager.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace LeadManager.Repositories
 {
     public class LeadRepository : ILeadRepository
     {
         private readonly DatabaseContext _context;
+        private readonly ILogger<LeadRepository> _logger;
 
-        public LeadRepository(DatabaseContext context)
+        public LeadRepository(DatabaseContext context, ILogger<LeadRepository> logger)
         {
             _context = context;
+            _logger = logger;
+        }
+
+        public async Task<StatusReport> BulkLoadLeads(List<Lead> leads)
+        {
+            try
+            {
+                _context.AddRange(leads);
+                await _context.SaveChangesAsync();
+                return new StatusReport { Ok = true };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                return new StatusReport { Ok = false };
+            }
         }
 
         public async Task<Lead> GetLeadById(int id)
