@@ -56,7 +56,7 @@ namespace LeadManager.Repositories
         {
             try
             {
-                var leads = await _context.Leads.ToListAsync();
+                var leads = await _context.Leads.Include(l => l.Activities).ToListAsync();
                 if (leads != null)
                 {
                     return leads;

@@ -38,7 +38,7 @@ namespace LeadManager.Controllers
             try
             {
                 var leads = await _leadService.GetLeads();
-                return Ok(leads);
+                return Ok(leads.Select(l => l.ToLeadResponse()).ToList());
             }
             catch (Exception e)
             {
