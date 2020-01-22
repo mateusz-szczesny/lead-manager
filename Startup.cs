@@ -33,6 +33,8 @@ namespace LeadManager
             services.AddDatabaseServices(Configuration);
             services.AddServices();
             services.AddRepositories();
+            services.AddRefitClient();
+            services.AddSchedulers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

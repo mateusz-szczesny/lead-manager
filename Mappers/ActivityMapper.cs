@@ -15,6 +15,18 @@ namespace LeadManager.Mappers
                 Type = ParseEnum<ActivityType>(activityRequest.Type),
             };
         }
+
+        public static ActivityHQ ToActivityHQ(this Activity activity)
+        {
+            return new ActivityHQ
+            {
+                type = activity.Type.ToString(),
+                lead_id = activity.Lead.ExternalId,
+                external_id = activity.ExternalId.ToString(),
+                created_date = activity.CreatedDate
+            };
+        }
+
         public static T ParseEnum<T>(string value)
         {
             return (T)Enum.Parse(typeof(T), value, true);

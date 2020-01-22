@@ -51,6 +51,37 @@ namespace LeadManager.Repositories
             }
         }
 
+        public async Task<List<Activity>> GetActivitiesToSync()
+        {
+            try
+            {
+                var activities = await _context.Activities.Include(x => x.Lead).Where(a => a.SyncDateTime == null || a.UpdatedDate > a.SyncDateTime).ToListAsync();
+                if (activities != null && activities.Any())
+                {
+                    return activities;
+                }
+                throw new Exception("No activities to sync!");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public async Task UpdateSyncDateTime(List<Activity> activities)
+        {
+            try
+            {
+                activities.ForEach(a => a.SyncDateTime = DateTime.Now);
+                _context.Activities.UpdateRange(activities);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public async Task<Activity> GetActivityById(int id)
         {
             try

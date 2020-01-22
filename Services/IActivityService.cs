@@ -9,6 +9,8 @@ namespace LeadManager.Services
         Task<Activity> Create(Activity activity);
         List<Activity> GetActivitiesByLeadId(int leadId);
         Task<Activity> GetActivityById(int id);
+        Task<List<Activity>> GetActivitiesToSync();
+        Task UpdateSyncDateTime(List<Activity> activities);
 
     }
 }

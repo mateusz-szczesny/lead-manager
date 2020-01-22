@@ -25,9 +25,19 @@ namespace LeadManager.Services
             return _activityRepository.GetActivitiesByLeadId(leadId);
         }
 
+        public Task<List<Activity>> GetActivitiesToSync()
+        {
+            return _activityRepository.GetActivitiesToSync();
+        }
+
         public Task<Activity> GetActivityById(int id)
         {
             return _activityRepository.GetActivityById(id);
+        }
+
+        public Task UpdateSyncDateTime(List<Activity> activities)
+        {
+            return _activityRepository.UpdateSyncDateTime(activities);
         }
     }
 }

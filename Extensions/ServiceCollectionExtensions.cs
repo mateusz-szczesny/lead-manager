@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Refit;
 using System.Reflection;
+using LeadManager.Api;
 using LeadManager.Models;
 using LeadManager.Repositories;
 using LeadManager.Services;
@@ -9,11 +11,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using LeadManager.Schedulers;
 
 namespace LeadManager.Extentions
 {
     public static class ServiceCollectionExtensions
     {
+
+        public static void AddSchedulers(this IServiceCollection services)
+        {
+            services.AddHostedService<ActivitiesSyncScheduler>();
+        }
+        public static void AddRefitClient(this IServiceCollection services)
+        {
+            services.AddRefitClient<IHQApi>().ConfigureHttpClient(c =>
+            {
+                c.BaseAddress = new Uri("https://hq-pai.herokuapp.com/api");
+            });
+        }
+
         public static void AddSwaggerDocumentation(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
